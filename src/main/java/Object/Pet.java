@@ -6,7 +6,7 @@ public class Pet {
     private String name;
     private String photoUrls;
     private Tag tag = new Tag();
-    private String status;
+    private Status status;
 
     public int getId() {
         return id;
@@ -48,12 +48,14 @@ public class Pet {
         this.tag = tag;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatus(Status status) {
+        if (status == Status.sold || status == Status.available || status == Status.pending){
+            this.status = status;
+        }
     }
 
     @Override
