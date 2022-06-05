@@ -1,18 +1,20 @@
 package Object;
 
+import java.util.Arrays;
+
 public class Pet {
-    private int id;
+    private Long id;
     private Category category = new Category();
     private String name;
-    private String photoUrls;
-    private Tag tag = new Tag();
+    private String[] photoUrls;
+    private Tag[] tag ;
     private Status status;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -32,19 +34,19 @@ public class Pet {
         this.name = name;
     }
 
-    public String getPhotoUrls() {
+    public String[] getPhotoUrls() {
         return photoUrls;
     }
 
-    public void setPhotoUrls(String photoUrls) {
+    public void setPhotoUrls(String[] photoUrls) {
         this.photoUrls = photoUrls;
     }
 
-    public Tag getTag() {
+    public Tag[] getTag() {
         return tag;
     }
 
-    public void setTag(Tag tag) {
+    public void setTag(Tag[] tag) {
         this.tag = tag;
     }
 
@@ -64,8 +66,8 @@ public class Pet {
                 "id=" + id +
                 ", category=" + category +
                 ", name='" + name + '\'' +
-                ", photoUrls='" + photoUrls + '\'' +
-                ", tag=" + tag +
+                ", photoUrls='" + Arrays.toString(photoUrls) + '\'' +
+                ", tag=" + Arrays.toString(tag) +
                 ", status='" + status + '\'' +
                 '}';
     }
