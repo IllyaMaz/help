@@ -1,60 +1,59 @@
 import Requests.PetUtil;
+import Requests.StoreUtil;
 import Requests.UserUtil;
 import Object.User;
 import Object.Pet;
 import Object.Category;
 import Object.Status;
 import Object.Tag;
-import com.google.gson.Gson;
+import Object.StoreOrder;
+import Object.StatusStoreOrder;
 
+
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    private static final String URI_CREATE_USER = "https://petstore.swagger.io/v2/user";
-    private static final String DELETE_USER = "https://petstore.swagger.io/v2/user/";
-    private static final String LOGIN_USER = "https://petstore.swagger.io/v2/user/login?username=%s&password=%s";
-    private static final String LOGOUT_USER = "https://petstore.swagger.io/v2/user/logout";
-    private static final String UPDATE_USER = "https://petstore.swagger.io/v2/user/%s";
-    private static final String GET_USER = "https://petstore.swagger.io/v2/user/%s";
-    private static final String CREATE_USER_WITH_LIST = "https://petstore.swagger.io/v2/user/createWithList";
-    private static final String CREATE_PET = "https://petstore.swagger.io/v2/pet";
-    private static final String UPDATE_PET = "https://petstore.swagger.io/v2/pet";
-    private static final String GET_BY_STATUS = "https://petstore.swagger.io/v2/pet/findByStatus?status=%s";
-    private static final String GET_PET_BY_ID = "https://petstore.swagger.io/v2/pet/%d";
-    private static final String UPDATE_PET_BY_ID = "https://petstore.swagger.io/v2/pet/%d";
-    private static final String DELETE_PET = "https://petstore.swagger.io/v2/pet/%d";
-    private static final String UPLOAD_IMAGE_PET = "https://petstore.swagger.io/v2/pet/%d/uploadImage";
+
 
     public static void main(String[] args) throws IOException, InterruptedException {
+        ApiConstants apiConstants = new ApiConstants();
         UserUtil userUtil = new UserUtil();
         User user = createUser(2L,"maznichenkoo16@gmail.com","asnils", "VisaGold1234", "Illya",
                 "Maznichenko", "+380636593406",1);
-        User user1 = createUser(3L,"e@gmail.com","savitar","qwerty","Egor","Bonduk",
+                User user1 = createUser(3L,"e@gmail.com","savitar","qwerty","Egor","Bonduk",
                 "675754",2);
         List<User> list = new ArrayList<>();
         list.add(user);
         list.add(user1);
         PetUtil petUtil = new PetUtil();
         Pet pet = createPet(1L,"Barsyc",1,"string",1,"cat","available","url");
-
-            //userUtil.createUser(URI.create(URI_CREATE_USER),user);
-            //userUtil.deleteUser(DELETE_USER,user);
-            //userUtil.loginUser(LOGIN_USER,user);
-            //userUtil.logoutUser(URI.create(LOGOUT_USER));
-            //userUtil.updateUser(UPDATE_USER,user);
-            //System.out.println(userUtil.getUser(GET_USER, user));
-            //userUtil.createListUser(list,URI.create(CREATE_USER_WITH_LIST));
-            //petUtil.addPetToStore(URI.create(CREATE_PET),pet);
-            //petUtil.updatePet(URI.create(UPDATE_PET),pet);
-            //System.out.println(petUtil.getByStatus(GET_BY_STATUS, String.valueOf(Status.available)));
-            //System.out.println(petUtil.getById(GET_PET_BY_ID, 1L));
-            //petUtil.updatePetById(UPDATE_PET_BY_ID,pet);
-            //petUtil.deletePet(DELETE_PET,1L);
-            petUtil.uploadToImage(UPLOAD_IMAGE_PET,1L, Path.of("C:\\Users\\Professional\\Downloads\\photo_2022-05-11_14-52-49.jpg"));
+        StoreOrder storeOrder = createStoreOrder(1L,1L, LocalDateTime.now(),StatusStoreOrder.approved,1,true);
+        StoreUtil storeUtil = new StoreUtil();
+        File file = new File("D:\\hw-HTTP-developer\\image.jpg");
+//            userUtil.createUser(URI.create(apiConstants.URI_CREATE_USER),user);
+//            userUtil.deleteUser(apiConstants.DELETE_USER,user);
+//            userUtil.loginUser(apiConstants.LOGIN_USER,user);
+//            userUtil.logoutUser(URI.create(apiConstants.LOGOUT_USER));
+//            userUtil.updateUser(apiConstants.UPDATE_USER,user);
+//            System.out.println(userUtil.getUser(apiConstants.GET_USER, user));
+//            userUtil.createListUser(list,URI.create(apiConstants.CREATE_USER_WITH_LIST));
+//            petUtil.addPetToStore(URI.create(apiConstants.CREATE_PET),pet);
+//            petUtil.updatePet(URI.create(apiConstants.UPDATE_PET),pet);
+//            System.out.println(petUtil.getByStatus(apiConstants.GET_BY_STATUS, String.valueOf(Status.available)));
+//            System.out.println(petUtil.getById(apiConstants.GET_PET_BY_ID, 1L));
+//            petUtil.updatePetById(apiConstants.UPDATE_PET_BY_ID,pet);
+//            petUtil.deletePet(apiConstants.DELETE_PET,1L);
+//            petUtil.uploadToImage(apiConstants.UPLOAD_IMAGE_PET,1L, file);
+//            storeUtil.placeAnOrderForPet(URI.create(apiConstants.PLACE_ORDER),storeOrder);
+//            System.out.println(storeUtil.getPurchaseById(apiConstants.GET_PURCHASE_BY_ID, 1));
+//            System.out.println(storeUtil.getStoreInventory(URI.create(apiConstants.GET_STORE_INVENTORY)));
+//            storeUtil.deletePurchaseOrderById(apiConstants.DELETE_PURCHASE_ORDER_BY_ID,1);
     }
 
 
@@ -94,5 +93,16 @@ public class Main {
         pet.setTag(tag);
         pet.setPhotoUrls(photoUrls);
         return pet;
+    }
+
+    private static StoreOrder createStoreOrder(Long id, Long petID, LocalDateTime shipDate, StatusStoreOrder statusStoreOrder,Integer quantity, Boolean copmlete){
+        StoreOrder storeOrder = new StoreOrder();
+        storeOrder.setId(id);
+        storeOrder.setPetId(petID);
+        storeOrder.setShipDate(String.valueOf(shipDate));
+        storeOrder.setStatus(statusStoreOrder);
+        storeOrder.setQuantity(quantity);
+        storeOrder.setComplete(copmlete);
+        return storeOrder;
     }
 }

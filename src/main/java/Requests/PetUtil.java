@@ -2,14 +2,21 @@ package Requests;
 import Object.Pet;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import Object.Status;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.file.Path;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class PetUtil {
@@ -87,16 +94,29 @@ public class PetUtil {
     }
 
     //Uploads to image
-    public void uploadToImage(String uri, Long id, Path path) throws IOException, InterruptedException {
+    public void uploadToImage(String uri, Long id, File file) {
         String req = String.format(uri,id);
-        //String petJson = GSON.toJson(pet);
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(req))
-                //.header("Content-type","application/json")
-                .POST(HttpRequest.BodyPublishers.ofFile(path))
-                .build();
-        HttpResponse<String> response = CLIENT.send(request,HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.statusCode());
+        byte[] fileByte = file.toString().getBytes(StandardCharsets.UTF_8);
+
+        MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpPost post = new HttpPost(req);
+
+        multipartEntityBuilder.addBinaryBody("file",fileByte, ContentType.DEFAULT_BINARY,"image.jpg");
+        HttpEntity httpEntity = multipartEntityBuilder.build();
+        post.setEntity(httpEntity);
+
+
+        CloseableHttpResponse execute = null;
+        try {
+            execute = client.execute(post);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(execute.getStatusLine());
+
+
     }
+
 
 }
