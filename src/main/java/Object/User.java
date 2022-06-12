@@ -8,7 +8,7 @@ public class User {
     private String email;
     private String password;
     private String phone;
-    private int userStatus;
+    private Integer userStatus;
 
     public User(){}
 
@@ -68,11 +68,11 @@ public class User {
         this.phone = phone;
     }
 
-    public int getUserStatus() {
+    public Integer getUserStatus() {
         return userStatus;
     }
 
-    public void setUserStatus(int userStatus) {
+    public void setUserStatus(Integer userStatus) {
         this.userStatus = userStatus;
     }
 
