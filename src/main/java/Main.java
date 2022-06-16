@@ -5,12 +5,9 @@ import Requests.StoreUtil;
 import Requests.UserUtil;
 import Object.User;
 import Object.Pet;
-import Object.Category;
 import Object.Status;
-import Object.Tag;
 import Object.StoreOrder;
 import Object.StatusStoreOrder;
-
 
 import java.io.File;
 import java.io.IOException;
@@ -25,27 +22,28 @@ public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
         ApiConstants apiConstants = new ApiConstants();
         UserUtil userUtil = new UserUtil();
-        BuilderUser builderUser = new BuilderUser();
-        builderUser.setPeople(2L,"Illya","Maznichenko");
-        builderUser.setContacts("maznichenkoo16@gmail.com","+380636593406");
-        builderUser.setLog("asnils","qwerty",2);
-        User user = builderUser.reset();
-        builderUser.clear();
-        builderUser.setPeople(3L,"Egor","Bondyk");
-        builderUser.setContacts("e@gmail.com","+380123456789");
-        builderUser.setLog("savitar","ytrewq",1);
-        User user1 = builderUser.reset();
+        User user = BuilderUser.newBuilder()
+                .setPeople(2L,"Illya","Maznichenko")
+                .setContacts("maznichenkoo16@gmail.com","+380636593406")
+                .setLog("asnils","qwerty",2)
+                .reset();
+        User user1 = BuilderUser.newBuilder()
+                .setPeople(3L,"Egor","Bondyk")
+                .setContacts("e@gmail.com","+380123456789")
+                .setLog("savitar","ytrewq",1)
+                .reset();
         List<User> list = new ArrayList<>();
         list.add(user);
         list.add(user1);
         PetUtil petUtil = new PetUtil();
-        BuilderPet builderPet = new BuilderPet();
-        builderPet.setPet(1L,"Barsyk",Status.available);
-        builderPet.setTag(1L,"Cat");
-        builderPet.setCategory(1L,"Animal");
-        builderPet.setPhoto("url");
-        Pet pet = builderPet.reset();
-        StoreOrder storeOrder = createStoreOrder(1L,1L, LocalDateTime.now(),StatusStoreOrder.approved,1,true);
+        Pet pet = BuilderPet.newBuilder()
+                .setPet(1L,"Barsyk",Status.AVAILABLE)
+                .setTag(1L,"Cat")
+                .setCategory(1L,"Animal")
+                .setPhoto("url")
+                .reset();
+
+        StoreOrder storeOrder = createStoreOrder(1L,1L, LocalDateTime.now(),StatusStoreOrder.APPROVED,1,true);
         StoreUtil storeUtil = new StoreUtil();
         File file = new File("image.jpg");
 //            userUtil.createUser(URI.create(apiConstants.URI_CREATE_USER_OR_DELETE),user);
@@ -57,7 +55,7 @@ public class Main {
 //            userUtil.createListUser(list,URI.create(apiConstants.CREATE_USER_WITH_LIST));
 //            petUtil.addPetToStore(URI.create(apiConstants.CREATE_PET_OR_UPDATE),pet);
 //            petUtil.updatePet(URI.create(apiConstants.CREATE_PET_OR_UPDATE),pet);
-//            System.out.println(petUtil.getByStatus(apiConstants.GET_BY_STATUS, String.valueOf(Status.available)));
+//            System.out.println(petUtil.getByStatus(apiConstants.GET_BY_STATUS, String.valueOf(Status.AVAILABLE)));
 //            System.out.println(petUtil.getById(apiConstants.GET_PET_BY_ID, 1L));
 //            petUtil.updatePetById(apiConstants.UPDATE_PET_BY_ID,pet);
 //            petUtil.deletePet(apiConstants.DELETE_PET,1L);

@@ -1,7 +1,7 @@
 package Object;
 
 public enum StatusStoreOrder {
-    placed,
-    approved,
-    delivered
+    PLACED,
+    APPROVED,
+    DELIVERED
 }
